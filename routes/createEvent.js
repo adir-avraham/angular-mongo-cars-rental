@@ -8,16 +8,29 @@ router.post('/', async (req, res, next) => {
 
     const { type, startDate, endDate, price, car_id, KM, fixDescription, dateFix } = req.body;
 
-    newEvent = new Event ({
-        type: type,
-        startDate: startDate,
-        endDate: endDate,
-        price: price,
-        KM: KM,
-        fixDescription: fixDescription,
-        dateFix: dateFix 
-    })
-
+    switch (type) {
+        case 'rental': {
+            newEvent = new Event ({
+                type: type,
+                startDate: startDate,
+                endDate: endDate,
+                price: price
+            })
+        }
+        case 'drive': {
+            newEvent = new Event ({
+                type: type,
+                KM: KM
+            })
+        }
+        case 'fix': {
+            newEvent = new Event ({
+                type: type,
+                fixDescription: fixDescription,
+                dateFix: dateFix 
+            })
+        }
+    }
 
     
     try {
