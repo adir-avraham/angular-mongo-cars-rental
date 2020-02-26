@@ -1,0 +1,83 @@
+<h3>cars-rental</h3>
+
+<form [formGroup]="myForm">
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputLp">Choose LP car:</label>
+      <select formControlName="car_id" id="inputLp" class="form-control" (change)="getOneCar()">
+        <option selected disabled>Choose...</option>
+        <option *ngFor="let car of cars" value="{{ car._id }}"
+          >LP: {{ car.lp }}</option>
+      </select>
+    </div>
+  </div>
+<hr>
+  <h3>create-event</h3>
+  <div class="form-row">
+    <div class="form-group col-md-2">
+        <label for="inputType">Type</label>
+        <select formControlName="type" id="inputType" class="form-control" (change)="displayForm()" >
+            <option selected disabled>Choose...</option>
+            <option value="rental">Rental</option>
+            <option value="drive">Drive</option>
+            <option value="fix">Fix</option>
+        </select>
+      </div>
+      <div class="form-group col-md-3" *ngIf="typeForm === 'rental'">
+        <label for="inputStartDate">Start date</label>
+        <input formControlName="startDate" type="date" class="form-control" id="inputStartDate">
+      </div>
+      <div class="form-group col-md-3" *ngIf="typeForm === 'rental'">
+        <label for="inputEndDate">End date</label>
+        <input formControlName="endDate" type="date" class="form-control" id="inputEndDate">
+      </div>
+      <div class="form-group col-md-3" *ngIf="typeForm === 'rental'" >
+        <label for="inputPrice">Price</label>
+        <input formControlName="price" type="number" class="form-control" id="inputPrice">
+      </div>
+      <div class="form-group col-md-3" *ngIf="typeForm === 'drive'">
+        <label for="inputKM">Kilometer</label>
+        <input formControlName="KM" type="number" class="form-control" id="inputStartDate">
+      </div>
+      <div class="form-group col-md-3" *ngIf="typeForm === 'fix'">
+        <label for="inputFixDescription">fixDescription</label>
+        <input formControlName="fixDescription" type="text" class="form-control" id="inputFixDescription">
+      </div>
+      <div class="form-group col-md-3" *ngIf="typeForm === 'fix'">
+        <label for="inputDateFix">Fix date</label>
+        <input formControlName="dateFix" type="date" class="form-control" id="inputFateFix">
+      </div>
+    </div>
+    
+    <button type="button" class="btn btn-primary" (click)="createEvent()">Save</button>
+
+</form>
+
+
+<div class="container mt-5">
+    <div class="col-lg-12">
+        <div class="row row-cols-1 row-cols-md-3">
+            <div *ngFor="let event of events" class="col mb-4">
+              <div class="card">
+                <div class="card-header">{{event.type}}</div>
+                <div class="card-body">
+                  <p class="card-title">{{event.startDate}}</p>
+                  <p class="card-text">{{event.endDate}}</p>
+                  <p class="card-text">{{event.price}}</p>
+                  <p class="card-text">{{event.KM}}</p>
+                  <p class="card-text">{{event.fixDescription}}</p>
+                  <p class="card-text">{{event.dateFix}}</p>
+                  
+                </div>
+              </div>
+            </div>  
+        </div>    
+    </div>
+</div>
+
+<div class="container mt-5" *ngIf="events.length === 0">
+    <div class="col-lg-12">
+<h1 class="text-danger">No events</h1> 
+    </div>
+</div>
