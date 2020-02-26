@@ -12,7 +12,8 @@ export class CarsPageComponent implements OnInit {
   public cars: Array<any> = [];
   public myForm: any;
   public events: Array<any> = [];
-  public typeForm: string
+  public typeForm: string;
+  car_id_Form: String;
 
   constructor(private carsService: CarsService, private formBuilder: FormBuilder) { 
 
@@ -41,11 +42,12 @@ export class CarsPageComponent implements OnInit {
 
   getOneCar() {
     const car_id = this.myForm.get('car_id').value
+    this.car_id_Form = car_id;
     this.carsService.getOneCar(car_id).subscribe(result => {
-      //console.log(result)
+      console.log(result)
       this.events = result;
     }, err => {
-      console.log("some error")
+      console.log(err)
     })
  
   }
@@ -65,9 +67,15 @@ export class CarsPageComponent implements OnInit {
       dateFix: this.myForm.get('dateFix').value,
       type: this.myForm.get('type').value
     }
+    if (!newEvent.car_id || newEvent.car_id < 0) return;
     this.carsService.createEvent(newEvent).subscribe(result => {
     //update the UI after adding new event
-      console.log(result)
+      const {events } = result.carAndEvents
+    console.log(events)
+    this.events = events
+
+    }, err => {
+      console.log(err)
     })  
     
     this.myForm.reset()

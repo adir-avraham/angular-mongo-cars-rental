@@ -17,12 +17,14 @@ router.post('/', async (req, res, next) => {
                 price: price
             })
         }
+        break;
         case 'drive': {
             newEvent = new Event ({
                 type: type,
                 KM: KM
             })
         }
+        break;
         case 'fix': {
             newEvent = new Event ({
                 type: type,
@@ -30,6 +32,7 @@ router.post('/', async (req, res, next) => {
                 dateFix: dateFix 
             })
         }
+        break;
     }
 
     
@@ -39,7 +42,8 @@ router.post('/', async (req, res, next) => {
         const [car] = await Car.find({_id: car_id})
         car.events.push(savedEvent)
         const saved = await car.save()
-        res.json({saved: saved, status: true})
+        const [carAndEvents] =  await Car.find({_id: car_id}).populate('events') 
+        res.json({saved: saved, carAndEvents: carAndEvents, status: true})
 
     } catch (err) {
         res.json({error: err.message})

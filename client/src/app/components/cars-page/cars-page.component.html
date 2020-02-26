@@ -10,6 +10,7 @@
         <option *ngFor="let car of cars" value="{{ car._id }}"
           >LP: {{ car.lp }}</option>
       </select>
+      <span class="text-danger" *ngIf="!car_id_Form">Please choose a car</span>
     </div>
   </div>
 <hr>
@@ -59,16 +60,15 @@
     <div class="col-lg-12">
         <div class="row row-cols-1 row-cols-md-3">
             <div *ngFor="let event of events" class="col mb-4">
-              <div class="card">
+              <div class="card shadow-lg">
                 <div class="card-header">{{event.type}}</div>
                 <div class="card-body">
-                  <p class="card-title">{{event.startDate}}</p>
-                  <p class="card-text">{{event.endDate}}</p>
-                  <p class="card-text">{{event.price}}</p>
-                  <p class="card-text">{{event.KM}}</p>
+                  <p class="card-title">{{event.startDate | date: 'dd-MM-yyyy'}}</p>
+                  <p class="card-text">{{event.endDate | date: 'dd-MM-yyyy'}}</p>
+                  <p class="card-text" *ngIf="event.price" >Price: {{event.price}}</p>
+                  <p class="card-text" *ngIf="event.KM">Kilometer: {{event.KM}}</p>
                   <p class="card-text">{{event.fixDescription}}</p>
-                  <p class="card-text">{{event.dateFix}}</p>
-                  
+                  <p class="card-text">{{event.dateFix | date: 'dd-MM-yyyy'}}</p>
                 </div>
               </div>
             </div>  
@@ -78,6 +78,6 @@
 
 <div class="container mt-5" *ngIf="events.length === 0">
     <div class="col-lg-12">
-<h1 class="text-danger">No events</h1> 
+<h1 class="text-info">No events..</h1> 
     </div>
 </div>
